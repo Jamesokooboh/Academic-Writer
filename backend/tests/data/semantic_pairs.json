@@ -1,0 +1,29 @@
+{
+  "description": "Labeled sentence pairs for calibrating the two-stage semantic validator. label=1 means meaning is preserved (a rewrite that SHOULD pass validation); label=0 means meaning has been altered (a rewrite that SHOULD be rejected). Hand-labeled, not AI-generated.",
+  "pairs": [
+    {"original": "The data was analyzed by the researchers to determine the results.", "revised": "The researchers analyzed the data to determine the results.", "label": 1},
+    {"original": "Due to the fact that the sample size was small, the results are inconclusive.", "revised": "Because the sample size was small, the results are inconclusive.", "label": 1},
+    {"original": "It is important to note that the model's accuracy decreased over time.", "revised": "The model's accuracy decreased over time.", "label": 1},
+    {"original": "The experiment was conducted in order to test the hypothesis.", "revised": "The experiment tested the hypothesis.", "label": 1},
+    {"original": "A large number of participants reported improved outcomes.", "revised": "Many participants reported improved outcomes.", "label": 1},
+    {"original": "The committee will review the proposal at this point in time.", "revised": "The committee will review the proposal now.", "label": 1},
+    {"original": "The findings were shown to be statistically significant by the analysis.", "revised": "The analysis showed the findings were statistically significant.", "label": 1},
+    {"original": "The system was designed by the engineers with scalability in mind.", "revised": "The engineers designed the system with scalability in mind.", "label": 1},
+    {"original": "In spite of the fact that funding was limited, the project succeeded.", "revised": "Although funding was limited, the project succeeded.", "label": 1},
+    {"original": "The survey results indicate that most respondents prefer remote work.", "revised": "The survey shows most respondents prefer remote work.", "label": 1},
+    {"original": "The report was written in a manner that was difficult to follow.", "revised": "The report was written in a confusing way.", "label": 1},
+    {"original": "The temperature increased gradually over the course of the experiment.", "revised": "The temperature rose gradually during the experiment.", "label": 1},
+    {"original": "The study found that 60% of participants improved after treatment.", "revised": "The study found that 90% of participants improved after treatment.", "label": 0},
+    {"original": "The results did not support the original hypothesis.", "revised": "The results supported the original hypothesis.", "label": 0},
+    {"original": "The drug showed a modest reduction in symptoms.", "revised": "The drug showed a dramatic reduction in symptoms.", "label": 0},
+    {"original": "Some participants experienced mild side effects.", "revised": "No participants experienced any side effects.", "label": 0},
+    {"original": "The company's revenue grew slightly in the third quarter.", "revised": "The company's revenue declined sharply in the third quarter.", "label": 0},
+    {"original": "The algorithm may improve performance under certain conditions.", "revised": "The algorithm will improve performance in all conditions.", "label": 0},
+    {"original": "Researchers observed a correlation between the two variables.", "revised": "Researchers proved that one variable causes the other.", "label": 0},
+    {"original": "The sample consisted of 50 undergraduate students.", "revised": "The sample consisted of 500 undergraduate students.", "label": 0},
+    {"original": "The policy was approved by a narrow margin.", "revised": "The policy was rejected by a narrow margin.", "label": 0},
+    {"original": "The author suggests further research is needed before drawing conclusions.", "revised": "The author concludes the matter is fully settled.", "label": 0},
+    {"original": "The device operates at a maximum of 5 volts.", "revised": "The device operates at a maximum of 50 volts.", "label": 0},
+    {"original": "Most experts agree the theory has limited support.", "revised": "Most experts agree the theory is definitively proven.", "label": 0}
+  ]
+}

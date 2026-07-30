@@ -1,0 +1,12 @@
+**/.venv
+**/node_modules
+**/.next
+**/__pycache__
+**/.pytest_cache
+**/*.pyc
+**/.git
+**/academic_writer.db
+**/.env
+**/.env.local
+**/playwright-report
+**/test-results
