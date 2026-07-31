@@ -11,6 +11,7 @@ from app.domain.cost import estimate_cost_usd
 from app.domain.rewrite_engine import RewriteRequest, iter_batches, rewrite_batch
 from app.domain.rubric.scorer import RubricWeights, score_sentence
 from app.domain.segmentation import segment_sentences
+from app.domain.spelling import detect_spelling_variant
 from app.similarity.validator import TwoStageValidator
 
 logger = logging.getLogger("app.pipeline")
@@ -87,6 +88,7 @@ async def rewrite_document(
     """Batches every NEEDS_IMPROVEMENT sentence per chunk, rewrites, validates, and
     persists the result. Sentences that fail validation keep their original text."""
     outcomes: list[RewriteOutcome] = []
+    spelling_variant = detect_spelling_variant("\n\n".join(c.raw_text for c in document.chunks))
 
     for chunk in sorted(document.chunks, key=lambda c: c.order_index):
         pending = [s for s in sorted(chunk.sentences, key=lambda s: s.order_index) if s.status == SentenceStatus.NEEDS_IMPROVEMENT]
@@ -104,6 +106,7 @@ async def rewrite_document(
                 context=chunk.context_tail or "",
                 writing_mode=document.writing_mode,
                 rewrite_strength=document.rewrite_strength,
+                spelling_variant=spelling_variant,
             )
             _log_usage(db, document.id, request_id, provider_name, response)
 

@@ -132,3 +132,78 @@ export async function exportDocument(documentId: number, format: ExportFormat): 
   }
   return response.blob();
 }
+
+export type SentenceStatus = "GOOD" | "NEEDS_IMPROVEMENT" | "REWRITTEN";
+
+export interface SentenceOut {
+  id: number;
+  order_index: number;
+  original_text: string;
+  rewritten_text: string | null;
+  status: SentenceStatus;
+  quality_score: number | null;
+  quality_breakdown: Record<string, number> | null;
+}
+
+export interface ChunkOut {
+  id: number;
+  order_index: number;
+  sentences: SentenceOut[];
+}
+
+export interface AnalyzeResult {
+  document_id: number;
+  chunks: ChunkOut[];
+  good_count: number;
+  needs_improvement_count: number;
+}
+
+export function analyzeDocument(documentId: number): Promise<AnalyzeResult> {
+  return apiFetch<AnalyzeResult>(`/api/documents/${documentId}/analyze`, { method: "POST" });
+}
+
+export interface RewriteResultOut {
+  sentence_id: number;
+  original_text: string;
+  rewritten_text: string;
+  stage_a_score: number;
+  stage_b_score: number | null;
+  passed_validation: boolean;
+}
+
+export interface RewriteRunResult {
+  document_id: number;
+  results: RewriteResultOut[];
+  total_input_tokens: number;
+  total_output_tokens: number;
+  total_cost_usd: number;
+}
+
+export function rewriteDocument(documentId: number): Promise<RewriteRunResult> {
+  return apiFetch<RewriteRunResult>(`/api/documents/${documentId}/rewrite`, { method: "POST" });
+}
+
+export function acceptChange(documentId: number, sentenceId: number): Promise<{ detail: string }> {
+  return apiFetch(`/api/documents/${documentId}/changes/${sentenceId}/accept`, { method: "POST" });
+}
+
+export function rejectChange(documentId: number, sentenceId: number): Promise<{ detail: string }> {
+  return apiFetch(`/api/documents/${documentId}/changes/${sentenceId}/reject`, { method: "POST" });
+}
+
+export interface DocumentMetrics {
+  good_count: number;
+  needs_improvement_count: number;
+  rewritten_count: number;
+  average_stage_a_score: number | null;
+  average_stage_b_score: number | null;
+  original_word_count: number;
+  rewritten_word_count: number;
+  total_input_tokens: number;
+  total_output_tokens: number;
+  total_cost_usd: number;
+}
+
+export function getMetrics(documentId: number): Promise<DocumentMetrics> {
+  return apiFetch<DocumentMetrics>(`/api/documents/${documentId}/metrics`);
+}
