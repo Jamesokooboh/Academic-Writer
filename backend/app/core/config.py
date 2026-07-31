@@ -3,7 +3,7 @@ from functools import lru_cache
 from pydantic import field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-_BLANK_TO_NONE_FIELDS = ("admin_email", "admin_password", "sentry_dsn", "openai_api_key", "anthropic_api_key", "gemini_api_key")
+_BLANK_TO_NONE_FIELDS = ("admin_email", "admin_password", "sentry_dsn", "openai_api_key", "anthropic_api_key", "gemini_api_key", "languagetool_url")
 
 
 class Settings(BaseSettings):
@@ -27,6 +27,10 @@ class Settings(BaseSettings):
     anthropic_api_key: str | None = None
     gemini_api_key: str | None = None
     ollama_base_url: str = "http://localhost:11434"
+
+    # Self-hosted LanguageTool server URL (e.g. http://localhost:8010/). Falls back to
+    # languagetool.org's rate-limited public API when unset.
+    languagetool_url: str | None = None
 
     cors_origins: list[str] = ["http://localhost:3000"]
 

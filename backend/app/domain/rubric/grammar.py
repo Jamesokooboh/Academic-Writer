@@ -1,5 +1,7 @@
 import logging
 
+from app.core.config import get_settings
+
 logger = logging.getLogger("app.rubric.grammar")
 
 _tool = None
@@ -10,10 +12,14 @@ def _get_tool():
     if _tool is None:
         import language_tool_python
 
-        # ponytail: public API (no Java/local server required), rate-limited by
-        # languagetool.org. Swap for a self-hosted LanguageTool server if throughput
-        # or reliability becomes a problem.
-        _tool = language_tool_python.LanguageToolPublicAPI("en-US")
+        url = get_settings().languagetool_url
+        if url:
+            _tool = language_tool_python.LanguageTool("en-US", remote_server=url)
+        else:
+            # ponytail: public API (no Java/local server required), rate-limited by
+            # languagetool.org. Set LANGUAGETOOL_URL to a self-hosted server if throughput
+            # or reliability becomes a problem.
+            _tool = language_tool_python.LanguageToolPublicAPI("en-US")
     return _tool
 
 

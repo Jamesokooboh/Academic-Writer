@@ -10,9 +10,17 @@ services:
       - backend/.env
     environment:
       DATABASE_URL: sqlite:////app/data/academic_writer.db
+      LANGUAGETOOL_URL: http://languagetool:8010/
     volumes:
       - backend_data:/app/data
       - hf_cache:/root/.cache/huggingface
+    depends_on:
+      - languagetool
+
+  languagetool:
+    image: erikvl87/languagetool
+    ports:
+      - "8010:8010"
 
   frontend:
     build:
