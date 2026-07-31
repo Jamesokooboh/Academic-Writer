@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { AuthGuard } from "@/components/AuthGuard";
+import { PipelinePanel } from "@/components/PipelinePanel";
 import { SettingsPanel, type EditorSettings } from "@/components/SettingsPanel";
 import { TrackChanges } from "@/components/TrackChanges";
 import { ApiError, createDocument, exportDocument, importDocument, type ExportFormat } from "@/lib/api";
@@ -199,11 +200,13 @@ function EditorPageContent() {
         </p>
       </div>
 
+      {documentId !== null && <PipelinePanel documentId={documentId} />}
+
       <div className="flex flex-col gap-2 border-t border-black/10 pt-6 dark:border-white/10">
-        <h2 className="text-sm font-semibold">Track Changes preview</h2>
+        <h2 className="text-sm font-semibold">Track Changes diff viewer</h2>
         <p className="text-xs text-zinc-500">
-          Edit the field below to see how proposed edits are diffed, color-coded, and accepted/rejected
-          individually — this is the same component the rewrite pipeline feeds once it&apos;s wired up here.
+          Paste any original/revised pair here to preview word-level diffing, color-coding, and
+          per-change accept/reject — the same component the rewrite pipeline above uses.
         </p>
         <textarea
           value={revised}

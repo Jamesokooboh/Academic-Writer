@@ -3,6 +3,7 @@ import logging
 from typing import Callable
 
 from app.ai.base import ProviderAdapter, ProviderResponse
+from app.ai.text_parsing import strip_code_fence
 from app.similarity.base import EntailmentChecker
 
 logger = logging.getLogger("app.similarity.entailment")
@@ -32,7 +33,7 @@ class LLMEntailmentChecker(EntailmentChecker):
         if self._on_usage:
             self._on_usage(response)
         try:
-            data = json.loads(response.text.strip())
+            data = json.loads(strip_code_fence(response.text))
             return max(0.0, min(1.0, float(data["score"])))
         except (json.JSONDecodeError, KeyError, ValueError, TypeError):
             logger.warning("entailment_judge_unparseable_response", extra={"extra_fields": {"raw": response.text}})
